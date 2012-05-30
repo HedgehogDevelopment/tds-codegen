@@ -4,3 +4,8 @@ obj
 
 # mstest test results
 TestResults
+
+*.dll
+BuiltFiles_*
+T4RenderCache
+IconCache

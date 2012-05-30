@@ -1,0 +1,44 @@
+----item----
+version: 1
+id: {DBFAE0CC-9F72-433C-AD0B-56A8A6D58639}
+database: master
+path: /sitecore/content/CodeGenHome
+parent: {0DE95AE4-41AB-4D01-9EB0-67441B7C2450}
+name: CodeGenHome
+master: {00000000-0000-0000-0000-000000000000}
+template: {9C83FC44-FD30-406C-B482-8D00EB0D5FDA}
+templatekey: HomePage
+
+----version----
+language: en
+version: 1
+revision: 8be4b6c6-ed73-4ca4-9b11-254ba5a6f6ce
+
+----field----
+field: {25BED78C-4957-4165-998A-CA1B52F67497}
+name: __Created
+key: __created
+content-length: 15
+
+20120524T155213
+----field----
+field: {8CDC337E-A112-42FB-BBB4-4143751E123F}
+name: __Revision
+key: __revision
+content-length: 36
+
+8be4b6c6-ed73-4ca4-9b11-254ba5a6f6ce
+----field----
+field: {D9CF14B1-FA16-4BA6-9288-E8A174D4D522}
+name: __Updated
+key: __updated
+content-length: 34
+
+20120524T155213:634734715334016080
+----field----
+field: {BADD9CF9-53E0-4D0C-BCC0-2D784C282F6A}
+name: __Updated by
+key: __updated by
+content-length: 14
+
+sitecore\Admin
