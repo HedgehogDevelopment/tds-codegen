@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{CAA73BB0-EF22-4D79-A57E-DF67B3BA9C80}") = "Sitecore.Master", "Sitecore.Master\Sitecore.Master.scproj", "{C905955E-E1B1-4AB6-A6BE-16AABE3CC428}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleContent", "SampleContent\SampleContent.csproj", "{D95DD3BE-8591-4629-80DC-218B14C91225}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleLibrary", "SampleLibrary\SampleLibrary.csproj", "{D95DD3BE-8591-4629-80DC-218B14C91225}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Extensions", "Extensions\Extensions.csproj", "{D29742AE-DCD9-4A34-AD67-E3F39FE4443C}"
 EndProject
