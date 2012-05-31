@@ -24,7 +24,7 @@
     <EnableCodeGeneration>True</EnableCodeGeneration>
     <FieldsForCodeGen>__Hidden,__Long description,__Read Only,__Short description,__Sortorder,Blob,Default value,Shared,Title,Unversioned,Validation,ValidationText,__Display name</FieldsForCodeGen>
     <CodeGenFile>TdsT4CodeGeneratedFile.cs</CodeGenFile>
-    <CodeGenTargetProject>SampleContent</CodeGenTargetProject>
+    <CodeGenTargetProject>SampleLibrary</CodeGenTargetProject>
     <BaseNamespace>BaseNamespace</BaseNamespace>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
