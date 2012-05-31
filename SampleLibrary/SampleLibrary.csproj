@@ -8,8 +8,8 @@
     <ProjectGuid>{D95DD3BE-8591-4629-80DC-218B14C91225}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>HedgehogDevelopment.CodeGeneration.SampleContent</RootNamespace>
-    <AssemblyName>HedgehogDevelopment.CodeGeneration.SampleContent</AssemblyName>
+    <RootNamespace>HedgehogDevelopment.CodeGeneration.SampleLibrary</RootNamespace>
+    <AssemblyName>HedgehogDevelopment.CodeGeneration.SampleLibrary</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>
