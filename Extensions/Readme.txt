@@ -26,6 +26,8 @@ Visual Studio Public Assemblies Folder.
 As part of the build process of the Extensions project there is a post
 build step to copy the dll and pdb to that folder.
 
+**The build will fail if Visual Studio is not running as Administrator**
+
 To use the extension methods in your T4 file, compile the Extensions project
 and add these two lines to your T4 (.tt) file:
 

@@ -11,7 +11,7 @@ You can download a copy from [Hedgehog Development](http://www.hhogdev.com/Produ
 
 How does TDS *do* code generation?
 --------------------------------
-You write code generation templates using [T4 Text Templates](http://msdn.microsoft.com/en-us/library/bb126445.aspx) that TDS then applies to your Sitecore items. Check out the [getting started guide](/HedgehogDevelopment/tds-codegen/wiki/Getting-Started). 
+You write code generation templates using [T4 Text Templates](http://msdn.microsoft.com/en-us/library/bb126445.aspx) that TDS then applies to your Sitecore items. Check out the [Getting Started Guide](/HedgehogDevelopment/tds-codegen/wiki/Getting-Started). 
 
 Does TDS support *MY* framework of choice?
 --------------------------------
