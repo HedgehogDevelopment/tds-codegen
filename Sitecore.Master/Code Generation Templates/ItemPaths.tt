@@ -1,10 +1,11 @@
 <#@ template language="C#" debug="true" #>
-<#@ assembly name="TdsT4Extensions.dll" #>
+
+<#@ import namespace="HedgehogDevelopment.CodeGeneration.Extensions" #>
+<#@ assembly name="HedgehogDevelopment.CodeGeneration.Extensions.dll" #>
 
 <#@ import namespace="System" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="HedgehogDevelopment.SitecoreProject.VSIP.CodeGeneration.Models" #>
-<#@ import namespace="TdsT4Extensions" #>
 
 <#@ parameter name="Model" type="HedgehogDevelopment.SitecoreProject.VSIP.CodeGeneration.Models.SitecoreItem" #>
 <#@ parameter name="DefaultNamespace" type="System.String" #>
