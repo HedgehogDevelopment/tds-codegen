@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace HedgehogDevelopment.CodeGeneration.Extensions
 {
@@ -34,6 +35,50 @@ namespace HedgehogDevelopment.CodeGeneration.Extensions
                         yield return cache.Dequeue();
                 }
             } while (hasRemainingItems);
+        }
+
+        /// <summary>
+        ///     Recursively projects each nested element to an <see cref="IEnumerable{TSource}"/>
+        ///     and flattens the resulting sequences into one sequence.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the elements of <paramref name="source"/>.</typeparam>
+        /// <param name="source">A sequence of values to project.</param>
+        /// <param name="recursiveSelector">A transform to apply to each element.</param>
+        /// <returns>
+        ///     An <see cref="IEnumerable{TSource}"/> whose elements are the
+        ///     result of recursively invoking the recursive transform function
+        ///     on each element and nested element of the input sequence.
+        /// </returns>
+        public static IEnumerable<TSource> SelectRecursive<TSource>(this IEnumerable<TSource> source, Func<TSource, IEnumerable<TSource>> recursiveSelector)
+        {
+            Stack<IEnumerator<TSource>> stack = new Stack<IEnumerator<TSource>>();
+            stack.Push(source.GetEnumerator());
+
+            try
+            {
+                while (stack.Count > 0)
+                {
+                    if (stack.Peek().MoveNext())
+                    {
+                        TSource current = stack.Peek().Current;
+
+                        yield return current;
+
+                        stack.Push(recursiveSelector(current).GetEnumerator());
+                    }
+                    else
+                    {
+                        stack.Pop().Dispose();
+                    }
+                }
+            }
+            finally
+            {
+                while (stack.Count > 0)
+                {
+                    stack.Pop().Dispose();
+                }
+            }
         }
 
         /// <summary>

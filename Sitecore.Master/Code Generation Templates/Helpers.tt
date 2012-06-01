@@ -1,4 +1,7 @@
-﻿<#+	
+﻿<#@ import namespace="HedgehogDevelopment.CodeGeneration.Extensions" #>
+<#@ assembly name="HedgehogDevelopment.CodeGeneration.Extensions.dll" #>
+
+<#+	
 /// <summary>
 /// Gets the fuly qualified name of the object.
 /// </summary>
@@ -52,14 +55,17 @@ public static string JoinNamespaces(params string[] namespaces)
 public static List<SitecoreField> GetFieldsForTemplate(SitecoreTemplate item, bool includeBases)
 {
 	List<SitecoreField> fields = new List<SitecoreField>();
+	
+	// Add direct fields that aren't ignored
 	fields.AddRange(item.Fields.Where(f=> GetCustomProperty(f.Data, "ignore") != "true"));
 	
 	if (includeBases)
 	{
-		foreach(SitecoreTemplate baseTemplate in item.BaseTemplates)
-		{
-			fields.AddRange(baseTemplate.Fields.Where(f=> GetCustomProperty(f.Data, "ignore") != "true"));
-		}
+		// leverage an extenstion method to recursively select base templates, then flatten the fields down
+		IEnumerable<SitecoreField> baseFields = item.BaseTemplates.SelectRecursive(i=>i.BaseTemplates).SelectMany(t=>t.Fields);
+		
+		// only grab base fields who aren't ignored
+		fields.AddRange(baseFields.Where(f=> GetCustomProperty(f.Data, "ignore") != "true"));
 	}
 	
 	return fields;
