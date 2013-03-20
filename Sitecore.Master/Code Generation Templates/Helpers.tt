@@ -9,7 +9,7 @@
 /// <param name="template">The template.</param>
 public static string GetFullyQualifiedName(string defaultNamespace, SitecoreItem item)
 {
-	return GetFullyQualifiedName(defaultNamespace, item, (string s) => s);
+	return GetFullyQualifiedName(defaultNamespace, item, HedgehogDevelopment.CodeGeneration.Extensions.StringExtensions.AsClassName);
 }
 
 /// <summary>
