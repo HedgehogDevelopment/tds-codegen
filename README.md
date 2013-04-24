@@ -26,7 +26,7 @@ How can I try code generation?
 2. Get the code and open the solution
 3. Right click on the TDS project and choose "Re-Generate Code for all Items"
 
-When completed you should see the `SampleLibrary/TdsT4CodeGeneratedFile.cs` file with 2,000+ lines of code. The code that was generated is very generic, but you have total control of the output! Please read the [Getting Started Guide][GettingStarted] for more information on how to customize the generated code.
+When completed you should see a `SampleLibrary/Documentation.md` file with 3,000+ lines of Markdown formatted text. This file that was generated is a document that describes every item in the TDS project. By default Markdown text is generated, but you have total control of the output! Please read the [Getting Started Guide][GettingStarted] for more information on how to customize the generated code.
 
 [TDS]:      http://TeamDevelopmentForSitecore.com
 [Download]: http://www.hhogdev.com/Products/Team-Development-for-Sitecore.aspx
