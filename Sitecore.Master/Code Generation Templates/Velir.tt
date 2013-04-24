@@ -1,0 +1,194 @@
+﻿<#@ template language="C#" #>
+<#@ output encoding="utf-8"#>
+
+<#@ include file="Helpers.tt" #>
+
+<#@ assembly name="System.Core.dll" #>
+
+<#@ import namespace="HedgehogDevelopment.CodeGeneration.Extensions" #>
+<#@ assembly name="HedgehogDevelopment.CodeGeneration.Extensions.dll" #>
+
+<#@ import namespace="System" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="HedgehogDevelopment.SitecoreProject.VSIP.CodeGeneration.Models" #>
+
+<#@ parameter name="Model" type="HedgehogDevelopment.SitecoreProject.VSIP.CodeGeneration.Models.SitecoreItem" #>
+<#@ parameter name="DefaultNamespace" type="System.String" #>
+
+<#
+/*
+This TDS Code Generation template is used to generate objects that are compatible with the
+Custom Item Generator written by Velir and available @ http://trac.sitecore.net/CustomItemGenerator
+*/
+#>
+ 
+<#
+// we only act on Templates
+SitecoreTemplate template = Model as SitecoreTemplate;
+if (template == null)
+{
+	return "";
+}
+
+string Tool = "Team Development for Sitecore - Velir.tt";
+string ToolVersion = "1.0";
+#>
+
+namespace <#= GetNamespace(DefaultNamespace, template)#>
+{
+	/// <summary>
+	/// <#= template.Name #>
+	/// <para><#= template.SitecoreFields.GetValue("__Short description")#></para>
+	/// <para>Path: <#= template.Path #></para>	
+	/// <para>ID: <#= template.ID.ToString() #></para>	
+	/// </summary>
+	/// <remarks> 
+    /// This example shows how to specify the <see cref="<#= template.Name #>{T}"/> type as a cref attribute.
+    /// </remarks>
+	public partial class <#= template.Name.AsClassName() #> : global::Sitecore.Data.Items.CustomItem
+	{
+		/// <summary>
+		/// The Template ID for <#= template.Path #>
+		/// </summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("<#=Tool#>", "<#=ToolVersion#>")]
+		public static readonly string TemplateId = "<#=template.ID.ToString()#>";
+
+<#if (template.BaseTemplates.Count > 0){#>
+		#region Inherited Base Templates
+<#foreach(SitecoreTemplate baseTemplate in template.BaseTemplates){#>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("<#=Tool#>", "<#=ToolVersion#>")]
+		private readonly <#=GetFullyQualifiedName(DefaultNamespace, baseTemplate)#> <#=baseTemplate.Name.AsFieldName()#>;
+        
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("<#=Tool#>", "<#=ToolVersion#>")]
+		public <#=GetFullyQualifiedName(DefaultNamespace, baseTemplate)#> <#=baseTemplate.Name.AsPropertyName()#> { get { return <#=baseTemplate.Name.AsFieldName()#>; } }
+<#}#>
+        #endregion
+<#}#>
+
+		#region Boilerplate CustomItem Code
+
+		/// <example>
+		/// This sample should how to get an instance of the <see cref="<#=template.Name.AsClassName()#>"/> class.
+		/// <code>
+		/// <#=template.Name.AsClassName()#> <#=template.Name.AsClassName().CamelCase()#> = new <#=template.Name#>(Sitecore.Context.Item;
+		/// </code>
+		/// </example>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("<#=Tool#>", "<#=ToolVersion#>")]
+		public <#= template.Name.AsClassName() #>(Item innerItem) : base(innerItem)
+		{
+<#foreach(SitecoreTemplate baseTemplate in template.BaseTemplates){#>
+         	<#=baseTemplate.Name.AsFieldName()#> = new <#=GetFullyQualifiedName(DefaultNamespace, baseTemplate)#>(innerItem);
+<#}#>
+		}
+
+		/// <example>
+		/// This sample should how to get an instance of the <see cref="<#=template.Name.AsClassName()#>"/> class.
+		/// <code>
+		/// <#=template.Name.AsClassName()#> <#=template.Name.AsClassName().CamelCase()#> = Sitecore.Context.Item;
+		/// </code>
+		/// </example>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("<#=Tool#>", "<#=ToolVersion#>")]
+		public static implicit operator <#= template.Name.AsClassName() #>(Item innerItem)
+		{
+			return innerItem != null ? new <#= template.Name.AsClassName() #>(innerItem) : null;
+		}
+
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("<#=Tool#>", "<#=ToolVersion#>")]
+		public static implicit operator Item(<#= template.Name.AsClassName() #> customItem)
+		{
+			return customItem != null ? customItem.InnerItem : null;
+		}
+
+		#endregion //Boilerplate CustomItem Code
+
+ 		#region Field Instance Methods
+<#foreach(SitecoreField field in GetFieldsForTemplate(template, false)){
+	string fieldType = GetVelirFieldType(field);#>
+<#if (fieldType == null){#>
+			//Could not find Field Type for <#=field.Type#>
+<#}else{#>
+		/// <summary>
+		/// The <#=field.Name#> field.
+		/// <para><#= field.SitecoreFields.GetValue("__Short description")#></para>
+		/// <para>Field Type: <#=field.Type#></para>		
+		/// <para>Field ID: <#=field.ID.ToString()#></para>
+		/// <para>Custom Data: <#=field.Data#></para>
+		/// </summary>
+		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("<#=Tool#>", "<#=ToolVersion#>")]
+		public <#=fieldType#> <#= GetPropertyName(field) #>  {get { return new <#=fieldType#>(InnerItem, InnerItem.Fields[new global::Sitecore.Data.ID("<#=field.ID.ToString()#>")]); } }
+<#}#>		
+<#}#>	
+		#endregion
+		 
+	}
+}
+
+<#+
+// Gets the Content field type for the Sitecore field
+public static string GetVelirFieldType(SitecoreField field)
+{
+	if (field != null && field.Type != null)
+    {
+		switch(field.Type.ToLower())
+		{			
+			case "checkbox":
+				return "CustomCheckboxField";
+
+			case "date":
+			case "datetime":
+				return "CustomDateField";
+		
+			case "number":	
+			case "integer":
+				return "CustomIntegerField";
+		
+			case "treelist":
+			case "treelistex":
+				return "CustomTreeListField";
+				
+			case "checklist":
+				return "CustomChecklistField";
+			
+			case "droplist":
+			case "grouped droplist":
+			case "multilist":
+                return "CustomMultiListField";
+
+			case "grouped droplink":
+			case "droplink":
+			case "lookup":
+			case "droptree":
+			case "reference":
+			case "tree":
+				return "CustomLookupField";
+		
+			case "file":
+				return "CustomFileField";
+		
+			case "image":
+				return "CustomImageField";
+		
+			case "general link":
+				return "CustomGeneralLinkField";
+		
+			case "rich text":
+			case "html":
+			case "single-line text":
+			case "multi-line text":
+			case "text":
+			case "memo":
+				return "CustomTextField";
+
+			default:
+				return null;
+		}
+	}
+    else 
+	{
+	   throw new Exception("There is no 'Type' field on the " + field.Name + " field.");
+	}
+} 
+
+#>

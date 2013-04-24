@@ -39,6 +39,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CustomItemGenerator">
+      <HintPath>..\lib\CustomItemGenerator.dll</HintPath>
+    </Reference>
+    <Reference Include="Glass.Sitecore.Mapper">
+      <HintPath>..\lib\Glass.Sitecore.Mapper.dll</HintPath>
+    </Reference>
     <Reference Include="Sitecore.Kernel">
       <HintPath>..\lib\Sitecore.Kernel.dll</HintPath>
     </Reference>
