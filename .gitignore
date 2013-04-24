@@ -174,4 +174,5 @@ BuiltFiles_*.txt
 
 # don't supply any 3rd party dll's
 lib/*.dll
+SampleLibrary/Documentation.md
 SampleLibrary/TdsT4CodeGeneratedFile.cs

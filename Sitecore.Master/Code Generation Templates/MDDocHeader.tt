@@ -1,0 +1,65 @@
+<#@ template language="C#" #>
+<#
+// The Header Template is used to generate code that goes at the top of the generated code file. This template is executed only once.
+// it will typically generate #using statements or add other one time only elements to the generated file.
+
+//Parameters passed to Template for code generation
+
+//   Model: The ProjectHeder object contains information about the TDS project generating the code and the project where the
+//          generated code will reside.
+#>
+<#@ parameter name="Model" type="HedgehogDevelopment.SitecoreProject.VSIP.CodeGeneration.Models.ProjectHeader" #>
+<#
+// 	DefaultNamespace: The DefaultNamespace parameter contains the default namespace of the project where the generated
+//					  code file resides.
+#>
+<#@ parameter name="DefaultNamespace" type="System.String" #>
+<#
+/* The project header class:
+public class ProjectHeader
+{
+    /// <summary>
+    /// The name of the TDS project
+    /// </summary>
+    public string TDSProjectName { get; set; }
+
+    /// <summary>
+    /// The full path to the TDS project file
+    /// </summary>
+    public string TDSProjectPath { get; set; }
+    
+    /// <summary>
+    /// The name of the target project
+    /// </summary>
+    public string TargetProjectName { get; set; }
+
+    /// <summary>
+    /// The full path to the target project
+    /// </summary>
+    public string TargetProjectPath { get; set; }
+
+    /// <summary>
+    /// The full path to the generated project file
+    /// </summary>
+    public string GeneratedFilePath { get; set; }
+
+    /// <summary>
+    /// Gets or sets the base namespace as set in the TDS project.
+    /// </summary>
+    public string BaseNamespace { get; set; }
+}
+*/
+#>
+
+# TDS Template Transform Documentation
+
+This is a markdown file that is outputted via TDS Code Generation. You can view this file with a text editor or a markdown editor for proper formatting.
+
+Generating from TDS Project: `<#= Model.TDSProjectName #>`
+Path to TDS Project: `<#= Model.TDSProjectPath #>`
+
+Generating to Project: `<#= Model.TargetProjectName #>`
+Path to Target Project: `<#= Model.TargetProjectPath #>`
+Path to generated file: `<#= Model.GeneratedFilePath #>`
+Target Project Default Namespace: `<#= DefaultNamespace #>`
+

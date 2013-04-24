@@ -1,0 +1,217 @@
+<#@ template language="C#" debug="true" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="HedgehogDevelopment.SitecoreProject.VSIP.CodeGeneration.Models" #>
+<#
+// The Item template is called for every Sitecore item elegible for code generation. TDS will execute this T4 template every time a
+// template or field on a template changes in TDS. The T4 template is responsible for generating code for only the Sitecore item TDS
+// passes to the template. TDS will join all created templates together to create a single file. 
+//
+// Version 4 of TDS only supports generating code for Sitecore Template items.
+
+// Parameters passed to the T4 Template for code generation
+
+//   Model: This parameter contains information about the Sitecore Item to be generated. The Model will always be a type that inherits from SitecoreItem.
+#>
+<#@ parameter name="Model" type="HedgehogDevelopment.SitecoreProject.VSIP.CodeGeneration.Models.SitecoreItem" #>
+<#
+// 	DefaultNamespace: The DefaultNamespace parameter contains the default namespace of the project where the generated
+//					  code file resides.
+#>
+<#@ parameter name="DefaultNamespace" type="System.String" #>
+<#
+/*   The following types are used during code generation:
+
+/// <summary>
+/// Represents the SitecoreItem to be passed to the T4 template. Any object that is a SitecoreItem will inherit from this object.
+/// </summary>
+public class SitecoreItem
+{
+    /// <summary>
+    /// The Sitecore item ID.
+    /// </summary>
+    public Guid ID { get; set; }
+
+    /// <summary>
+    /// The name of the Sitecore item. This may be different than the Display Name.
+    /// </summary>
+    public string Name { get; set; }
+
+    /// <summary>
+    /// The path to the item from the Sitecore root.
+    /// </summary>
+    public string Path { get; set; }
+
+    /// <summary>
+    /// Any custom data associated with the item. This data can be set on the property page associated with the Sitecore item in the solution explorer.
+    /// </summary>
+    public string Data { get; set; }
+
+    /// <summary>
+    /// The Parent SitecoreItem in the Sitecore hierarchy.
+    /// </summary>
+    public SitecoreItem Parent { get; set; }
+
+    /// <summary>
+    /// The name of the template the item is based on
+    /// </summary>
+    public string TemplateName { get; set; }
+
+    /// <summary>
+    /// The ID of the template the item is based on
+    /// </summary>
+    public Guid TemplateId { get; set; }
+
+    /// <summary>
+    /// Additional sitecore fields. These fields are set on the Code Generation Property page. 
+    /// The key in the dictionary is the Field name, the value is the value of the field.
+    /// </summary>
+    public Dictionary<string, string> SitecoreFields;
+
+	/// <summary>
+    /// The calculated Namespace for the item. Each Sitecore item above the template is represented as part of the namespace. 
+    /// A new Namespace can be set at any item in the items property page. This allows the code generation namespace to be arranged differently 
+    /// than the Sitecore template hierarchy.
+    /// </summary>
+    public string Namespace { get; set; }
+}
+
+/// <summary>
+/// Represents Template specific information for code generation.
+/// </summary>
+public class SitecoreTemplate : SitecoreItem
+{
+    /// <summary>
+    /// The namespace broken out into individual segments.
+    /// </summary>
+    public IEnumerable<string> NamespaceSegments { get; }
+
+    /// <summary>
+    /// A list of all templates this template inherits from.
+    /// </summary>
+    public List<SitecoreTemplate> BaseTemplates { get; set; }
+
+    /// <summary>
+    /// A list of Sitecore Fields that make up this sitecore template.
+    /// </summary>
+    public List<SitecoreField> Fields { get; set; }
+}
+
+/// <summary>
+/// Represents Field specific information for code generation.
+/// </summary>
+public class SitecoreField : SitecoreItem
+{
+    /// <summary>
+    /// The type of the field from the template editor.
+    /// </summary>
+    public string Type { get; set; }
+}
+*/			
+#>
+
+<#
+string title = "Item: ";
+if (Model is SitecoreTemplate)
+{
+	title = "Template: ";
+}
+title += Model.Name;
+#>
+
+----------------------------------------------------------
+
+## <#= title #>
+
+### Item Properties
+Name: `<#= Model.Name #>`
+ID: `<#= Model.ID #>`
+Sitecore Path: `<#= Model.Path #>`
+TemplateName: `<#= Model.TemplateName #>`
+TemplateId: `<#= Model.TemplateId #>`
+
+### Project Properties
+Target Project DefaultNamespace: `<#= DefaultNamespace #>`
+Calculated Namespace: `<#= Model.Namespace #>`
+CustomData: `<#= Model.Data #>`
+
+### Parent Items
+<#
+//See if the Sitecore Template has a parent and display the parent information
+if (Model.Parent != null)
+{
+#>
+<# GetParentInfo(Model.Parent); #>
+<#
+}	
+#>
+	
+### Sitecore fields from Item
+<#
+// If there are any additional Sitecore field values for the template, they are stored in the
+// SitecoreFields collection
+foreach(KeyValuePair<string,string> sitecoreField in Model.SitecoreFields)
+{
+#>
+- `<#=sitecoreField.Key#>`: `<#=sitecoreField.Value#>`
+<#
+}
+
+//See what type the model is.
+if (Model is SitecoreTemplate)
+{
+	SitecoreTemplate template = (SitecoreTemplate)Model;
+#>
+
+### Template Inheritance
+<#
+	// The base templates can be retrieved as SitecoreTemplate objects from the BaseTemplate collection. 
+	// The base template objects contain all information known about the template including Fields and BaseTemplates. 
+	// If a template has a BaseTemplate not in the TDS project, it will not be included in this collection.
+	foreach(SitecoreTemplate baseTemplate in template.BaseTemplates)
+	{
+#>
+- Name: `<#= baseTemplate.Name#>`, ID: `<#= baseTemplate.ID #>`, Data: `<#= baseTemplate.Data #>`
+<#
+	}
+#>
+
+### Template Fields
+<#
+	// The fields for a template can be retrieved as SitecoreField objects from the Fields collection. 
+	// If the Sitecore Field is not in the TDS project, it will not be in this collection
+	foreach(SitecoreField field in template.Fields)
+	{
+#>
+- Field Name: `<#= field.Name #>`, ID: `<#= field.ID #>`, Type: `<#= field.Type #>`, Data: `<#= field.Data #>`
+<#
+		// If there is any additional Sitecore field values retrieved from the field in the collection, it is stored in the
+		// SitecoreFields collection for the field.
+		foreach(KeyValuePair<string,string> sitecoreField in field.SitecoreFields)
+		{
+#>
+    - `<#=sitecoreField.Key#>`: `<#=sitecoreField.Value#>`
+<#
+		}
+	}
+#>
+ 
+<#
+}
+#>
+
+<#+
+	/// <summary>
+	/// Recursively walks up the item parents and prints the parent item details. 
+	/// </summary>
+	/// <param name="item"></param>
+	private void GetParentInfo(SitecoreItem item)
+	{
+#>
+- Name: `<#= item.Name#>`, ID: `<#= item.ID #>`, Data: `<#= item.Data #>`
+<#+
+		if (item.Parent!=null)
+		{
+			GetParentInfo(item.Parent);
+		}
+	}
+#>

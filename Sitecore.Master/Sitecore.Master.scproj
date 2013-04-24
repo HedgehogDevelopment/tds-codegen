@@ -23,11 +23,11 @@
     <SitecoreDatabase>master</SitecoreDatabase>
     <EnableCodeGeneration>True</EnableCodeGeneration>
     <FieldsForCodeGen>__Hidden,__Long description,__Read Only,__Short description,__Sortorder,Blob,Default value,Shared,Title,Unversioned,Validation,ValidationText,__Display name</FieldsForCodeGen>
-    <CodeGenFile>TdsT4CodeGeneratedFile.cs</CodeGenFile>
+    <CodeGenFile>Documentation.md</CodeGenFile>
     <CodeGenTargetProject>SampleLibrary</CodeGenTargetProject>
     <BaseNamespace>BaseNamespace</BaseNamespace>
-    <HeaderTransformFile>
-    </HeaderTransformFile>
+    <HeaderTransformFile>MDDocHeader.tt</HeaderTransformFile>
+    <BaseTransformFile>MDDocItem.tt</BaseTransformFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -58,7 +58,6 @@
       <Icon>/temp/IconCache/People/16x16/cubes_blue.png</Icon>
       <ChildItemSynchronization>NoChildSynchronization</ChildItemSynchronization>
       <ItemDeployment>AlwaysUpdate</ItemDeployment>
-      <CodeGenTemplate>ItemPaths.tt</CodeGenTemplate>
     </SitecoreItem>
     <SitecoreItem Include="sitecore\content\CodeGenHome.item">
       <Icon>/temp/IconCache/People/32x32/house.png</Icon>
@@ -647,6 +646,8 @@
     <ExcludedAssemblies Include="Sitecore.%2a.dll" />
   </ItemGroup>
   <ItemGroup>
+    <CodeGenTemplate Include="Code Generation Templates\MDDocHeader.tt" />
+    <CodeGenTemplate Include="Code Generation Templates\MDDocItem.tt" />
     <CodeGenTemplate Include="Code Generation Templates\GlassHeader.tt" />
     <CodeGenTemplate Include="Code Generation Templates\GlassItem.tt" />
     <CodeGenTemplate Include="Code Generation Templates\Helpers.tt" />
