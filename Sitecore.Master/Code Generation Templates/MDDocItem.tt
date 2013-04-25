@@ -2,21 +2,16 @@
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="HedgehogDevelopment.SitecoreProject.VSIP.CodeGeneration.Models" #>
 <#
-// The Item template is called for every Sitecore item elegible for code generation. TDS will execute this T4 template every time a
-// template or field on a template changes in TDS. The T4 template is responsible for generating code for only the Sitecore item TDS
-// passes to the template. TDS will join all created templates together to create a single file. 
-//
-// Version 4 of TDS only supports generating code for Sitecore Template items.
+// The Item template is called for every Sitecore item elegible for code generation. TDS will execute this T4 template every time an
+// item changes in TDS. The T4 template is responsible for generating code for only the Sitecore item TDS
+// passes to the T4 template. TDS will join all created templates together to create a single file. 
 
 // Parameters passed to the T4 Template for code generation
-
-//   Model: This parameter contains information about the Sitecore Item to be generated. The Model will always be a type that inherits from SitecoreItem.
-#>
-<#@ parameter name="Model" type="HedgehogDevelopment.SitecoreProject.VSIP.CodeGeneration.Models.SitecoreItem" #>
-<#
+//  Model: This parameter contains information about the Sitecore Item to be generated. The Model will always be a type that inherits from SitecoreItem.
 // 	DefaultNamespace: The DefaultNamespace parameter contains the default namespace of the project where the generated
 //					  code file resides.
 #>
+<#@ parameter name="Model" type="HedgehogDevelopment.SitecoreProject.VSIP.CodeGeneration.Models.SitecoreItem" #>
 <#@ parameter name="DefaultNamespace" type="System.String" #>
 <#
 /*   The following types are used during code generation:
@@ -109,32 +104,24 @@ public class SitecoreField : SitecoreItem
 */			
 #>
 
-<#
-string title = "Item: ";
-if (Model is SitecoreTemplate)
-{
-	title = "Template: ";
-}
-title += Model.Name;
-#>
+### `<#= Model.Path #>`
 
-----------------------------------------------------------
+#### T4 Parameters
+Target Project DefaultNamespace: `<#= DefaultNamespace #>`
+Model Type: `<#=Model.GetType().Name.ToString()#>`
 
-## <#= title #>
-
-### Item Properties
+#### Sitecore Item Properties
 Name: `<#= Model.Name #>`
 ID: `<#= Model.ID #>`
 Sitecore Path: `<#= Model.Path #>`
-TemplateName: `<#= Model.TemplateName #>`
-TemplateId: `<#= Model.TemplateId #>`
+Template Name: `<#= Model.TemplateName #>`
+Template Id: `<#= Model.TemplateId #>`
 
-### Project Properties
-Target Project DefaultNamespace: `<#= DefaultNamespace #>`
+#### Project Item Properties
 Calculated Namespace: `<#= Model.Namespace #>`
-CustomData: `<#= Model.Data #>`
+Custom Data: `<#= Model.Data #>`
 
-### Parent Items
+#### Ancestors
 <#
 //See if the Sitecore Template has a parent and display the parent information
 if (Model.Parent != null)
@@ -145,7 +132,7 @@ if (Model.Parent != null)
 }	
 #>
 	
-### Sitecore fields from Item
+#### Sitecore fields from Item
 <#
 // If there are any additional Sitecore field values for the template, they are stored in the
 // SitecoreFields collection
@@ -162,7 +149,7 @@ if (Model is SitecoreTemplate)
 	SitecoreTemplate template = (SitecoreTemplate)Model;
 #>
 
-### Template Inheritance
+#### Template Inheritance
 <#
 	// The base templates can be retrieved as SitecoreTemplate objects from the BaseTemplate collection. 
 	// The base template objects contain all information known about the template including Fields and BaseTemplates. 
@@ -175,7 +162,7 @@ if (Model is SitecoreTemplate)
 	}
 #>
 
-### Template Fields
+#### Template Fields
 <#
 	// The fields for a template can be retrieved as SitecoreField objects from the Fields collection. 
 	// If the Sitecore Field is not in the TDS project, it will not be in this collection
@@ -198,6 +185,8 @@ if (Model is SitecoreTemplate)
 <#
 }
 #>
+
+----------------------------------------------------------
 
 <#+
 	/// <summary>
