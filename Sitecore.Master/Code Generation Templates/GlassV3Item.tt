@@ -56,32 +56,12 @@ namespace <#= GetNamespace(DefaultNamespace, template)#>
 
 
  	/// <summary>
-	/// <#= template.Name.AsInterfaceName() #> Constants
-	/// <para><#= template.SitecoreFields.GetValue("__Short description")#></para>
-	/// <para>Path: <#= template.Path #></para>	
-	/// <para>ID: <#= template.ID.ToString() #></para>	
-	/// </summary>
-	public static class <#= template.Name.AsClassName() #>Constants
-	{
-		
-		public static readonly ID TemplateId = new ID("<#= template.ID.ToString() #>");
-		public const string TemplateName = "<#= template.Name #>";
-
-<#foreach(SitecoreField field in GetFieldsForTemplate(template, false)){#>
-		public static readonly ID <#= GetPropertyName(field) #>FieldId = new ID("<#=field.ID.ToString()#>");
-		public const string <#= GetPropertyName(field) #>FieldName = "<#=field.Name#>";
-<#}#>
-	}
-
-
-
- 	/// <summary>
 	/// <#= template.Name.AsInterfaceName() #> Interface
 	/// <para><#= template.SitecoreFields.GetValue("__Short description")#></para>
 	/// <para>Path: <#= template.Path #></para>	
 	/// <para>ID: <#= template.ID.ToString() #></para>	
 	/// </summary>
-	[SitecoreType(TemplateId="<#=template.ID#>")]
+	[SitecoreType(TemplateId=<#= template.Name.AsClassName() #>.TemplateIdString)]
 	public partial interface <#= template.Name.AsInterfaceName() #> : IGlassBase <#=GetObjectInheritanceDefinition(DefaultNamespace, template, true, (string s) => s.AsInterfaceName())#>
 	{
 <#foreach(SitecoreField field in GetFieldsForTemplate(template, false)){#>
@@ -92,7 +72,7 @@ namespace <#= GetNamespace(DefaultNamespace, template)#>
 		/// <para>Field ID: <#=field.ID.ToString()#></para>
 		/// <para>Custom Data: <#=field.Data#></para>
 		/// </summary>
-		[SitecoreField("<#=field.Name#>")]
+		[SitecoreField(<#= template.Name.AsClassName() #>.<#= GetPropertyName(field) #>FieldName)]
 		<#=GetGlassFieldType(field)#> <#= GetPropertyName(field) #>  {get; set;}
 			
 <#}#>
@@ -107,9 +87,14 @@ if (!template.Name.IsInterfaceWord()){ #>
 	/// <para>Path: <#= template.Path #></para>	
 	/// <para>ID: <#= template.ID.ToString() #></para>	
 	/// </summary>
-	[SitecoreType(TemplateId="<#=template.ID#>")]
+	[SitecoreType(TemplateId=<#= template.Name.AsClassName() #>.TemplateIdString)]
 	public partial class <#= template.Name.AsClassName() #>  : GlassBase, <#=template.Name.AsInterfaceName()#> 
 	{
+	    
+		public const string TemplateIdString = "<#= template.ID.ToString() #>";
+		public static readonly ID TemplateId = new ID(TemplateIdString);
+		public const string TemplateName = "<#= template.Name #>";
+
 <#foreach(SitecoreField field in GetFieldsForTemplate(template, true)){#>
 		/// <summary>
 		/// The <#=field.Name#> field.
@@ -119,8 +104,11 @@ if (!template.Name.IsInterfaceWord()){ #>
 		/// <para>Custom Data: <#=field.Data#></para>
 		/// </summary>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("<#=Tool#>", "<#=ToolVersion#>")]
-		[SitecoreField("<#=field.Name#>")]
+		[SitecoreField(<#= template.Name.AsClassName() #>.<#= GetPropertyName(field) #>FieldName)]
 		public virtual <#=GetGlassFieldType(field)#> <#= GetPropertyName(field) #>  {get; set;}
+
+		public static readonly ID <#= GetPropertyName(field) #>FieldId = new ID("<#=field.ID.ToString()#>");
+		public const string <#= GetPropertyName(field) #>FieldName = "<#=field.Name#>";
 			
 <#}#>	
 	}
