@@ -646,6 +646,8 @@
     <ExcludedAssemblies Include="Sitecore.%2a.dll" />
   </ItemGroup>
   <ItemGroup>
+    <CodeGenTemplate Include="Code Generation Templates\GlassV3Header.tt" />
+    <CodeGenTemplate Include="Code Generation Templates\GlassV3Item.tt" />
     <CodeGenTemplate Include="Code Generation Templates\MDDocHeader.tt" />
     <CodeGenTemplate Include="Code Generation Templates\MDDocItem.tt" />
     <CodeGenTemplate Include="Code Generation Templates\GlassHeader.tt" />
