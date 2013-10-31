@@ -79,7 +79,7 @@ namespace <#= GetNamespace(DefaultNamespace, template)#>
 	}
 
 
-	public static class <#= template.Name.AsInterfaceName() #>Constants{
+	public static partial class <#= template.Name.AsInterfaceName() #>Constants{
 
 			public const string TemplateIdString = "<#= template.ID.ToString() #>";
 			public static readonly ID TemplateId = new ID(TemplateIdString);
