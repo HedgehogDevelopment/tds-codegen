@@ -2,9 +2,6 @@
 <#@ include file="Helpers.tt" #>
 <#@ assembly name="System.Core.dll" #>
 
-<#@ import namespace="HedgehogDevelopment.CodeGeneration.Extensions" #>
-<#@ assembly name="HedgehogDevelopment.CodeGeneration.Extensions.dll" #>
-
 <#@ import namespace="System" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Linq" #>
@@ -34,6 +31,7 @@ using Glass.Mapper.Sc.Configuration;
 using Glass.Mapper.Sc.Fields;
 using Sitecore.Globalization;
 using Sitecore.Data;
+using Glass.Mapper.Sc.Demo.Core.Fields;
 
 <#
 // Calculate the top leve namespace as configured in the target project and
@@ -67,5 +65,8 @@ namespace <#=fullNamespace #>
 
         [SitecoreInfo(SitecoreInfoType.Version)]
         public virtual int Version { get; private set; }
+
+		[SitecoreInfo(SitecoreInfoType.Url)]
+        public virtual string Url { get; private set; }
 	}
 }

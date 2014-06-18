@@ -5,8 +5,7 @@
 
 <#@ assembly name="System.Core.dll" #>
 
-<#@ import namespace="HedgehogDevelopment.CodeGeneration.Extensions" #>
-<#@ assembly name="HedgehogDevelopment.CodeGeneration.Extensions.dll" #>
+
 
 <#@ import namespace="System" #>
 <#@ import namespace="System.Text" #>
@@ -61,7 +60,7 @@ namespace <#= GetNamespace(DefaultNamespace, template)#>
 	/// <para>Path: <#= template.Path #></para>	
 	/// <para>ID: <#= template.ID.ToString() #></para>	
 	/// </summary>
-	[SitecoreType(TemplateId=<#= template.Name.AsInterfaceName() #>Constants.TemplateIdString)]
+	[SitecoreType(TemplateId=<#= template.Name.AsInterfaceName() #>Constants.TemplateIdString )] //, Cachable = true
 	public partial interface <#= template.Name.AsInterfaceName() #> : IGlassBase <#=GetObjectInheritanceDefinition(DefaultNamespace, template, true, (string s) => s.AsInterfaceName())#>
 	{
 			<#foreach(SitecoreField field in GetFieldsForTemplate(template, false)){#>
@@ -103,7 +102,7 @@ if (!template.Name.IsInterfaceWord()){ #>
 	/// <para>Path: <#= template.Path #></para>	
 	/// <para>ID: <#= template.ID.ToString() #></para>	
 	/// </summary>
-	[SitecoreType(TemplateId=<#= template.Name.AsInterfaceName() #>Constants.TemplateIdString)]
+	[SitecoreType(TemplateId=<#= template.Name.AsInterfaceName() #>Constants.TemplateIdString)] //, Cachable = true
 	public partial class <#= template.Name.AsClassName() #>  : GlassBase, <#=template.Name.AsInterfaceName()#> 
 	{
 	   
@@ -203,7 +202,7 @@ public static string GetGlassFieldType(SitecoreField field)
 				return "File";
 
 			case "image":
-				return "Image";
+				return "ExifImage";
 
 			case "general link":
 			case "general link with search":
