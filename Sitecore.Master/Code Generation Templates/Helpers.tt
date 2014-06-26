@@ -1,7 +1,4 @@
-﻿<#@ import namespace="HedgehogDevelopment.CodeGeneration.Extensions" #>
-<#@ assembly name="HedgehogDevelopment.CodeGeneration.Extensions.dll" #>
-
-<#+	
+﻿<#+	
 /// <summary>
 /// Gets the fuly qualified name of the object.
 /// </summary>
@@ -9,7 +6,7 @@
 /// <param name="template">The template.</param>
 public static string GetFullyQualifiedName(string defaultNamespace, SitecoreItem item)
 {
-	return GetFullyQualifiedName(defaultNamespace, item, HedgehogDevelopment.CodeGeneration.Extensions.StringExtensions.AsClassName);
+	return GetFullyQualifiedName(defaultNamespace, item, AsClassName);
 }
 
 /// <summary>
@@ -31,7 +28,7 @@ public static string GetNamespace(string defaultNamespace, SitecoreItem item, bo
 	List<string> namespaceSegments = new List<string>();
 	namespaceSegments.Add(defaultNamespace);
 	namespaceSegments.Add(item.Namespace);
-	string @namespace = namespaceSegments.AsNamespace(); // use an extension method in the supporting assembly
+	string @namespace = AsNamespace(namespaceSegments); // use an extension method in the supporting assembly
 
 	return includeGlobal ? string.Concat("global::", @namespace) : @namespace;
 }
@@ -43,7 +40,7 @@ public static string GetNamespace(string defaultNamespace, SitecoreItem item, bo
 public static string JoinNamespaces(params string[] namespaces)
 {
 	// leverage an extension method in the support assembly
-	return namespaces.AsNamespace();
+	return AsNamespace(namespaces);
 }
 
 /// <summary>
@@ -62,7 +59,7 @@ public static List<SitecoreField> GetFieldsForTemplate(SitecoreTemplate item, bo
 	if (includeBases)
 	{
 		// leverage an extenstion method to recursively select base templates, then flatten the fields down
-		IEnumerable<SitecoreField> baseFields = item.BaseTemplates.SelectRecursive(i=>i.BaseTemplates).SelectMany(t=>t.Fields);
+		IEnumerable<SitecoreField> baseFields = SelectRecursive(item.BaseTemplates, i=>i.BaseTemplates).SelectMany(t=>t.Fields);
 		
 		// only grab base fields who aren't ignored
 		fields.AddRange(baseFields.Where(f=> GetCustomProperty(f.Data, "ignore") != "true"));
@@ -88,7 +85,7 @@ public static string GetPropertyName(SitecoreField field)
 	
 	bool isFieldPlural = IsFieldPlural(field);
 	
-	return field.Name.AsPropertyName(isFieldPlural);
+	return AsPropertyName(field.Name, isFieldPlural);
 }
 
 /// <summary>
@@ -135,5 +132,4 @@ public static string GetCustomProperty(string data, string key)
     }
     return "";
 }
-
 #>

@@ -2,11 +2,11 @@
 <#@ output encoding="utf-8"#>
 
 <#@ include file="Helpers.tt" #>
+<#@ include file="StringExtensions.tt" #>
+<#@ include file="GeneralExtensions.tt" #>
+<#@ include file="Inflector.tt" #>
 
 <#@ assembly name="System.Core.dll" #>
-
-<#@ import namespace="HedgehogDevelopment.CodeGeneration.Extensions" #>
-<#@ assembly name="HedgehogDevelopment.CodeGeneration.Extensions.dll" #>
 
 <#@ import namespace="System" #>
 <#@ import namespace="System.Text" #>
@@ -54,17 +54,17 @@ string ToolVersion = "1.0";
 namespace <#= GetNamespace(DefaultNamespace, template)#>
 {
  	/// <summary>
-	/// <#= template.Name.AsInterfaceName() #> Interface
-	/// <para><#= template.SitecoreFields.GetValue("__Short description")#></para>
+	/// <#= AsInterfaceName(template.Name) #> Interface
+	/// <para><#= GetValue(template.SitecoreFields, "__Short description")#></para>
 	/// <para>Path: <#= template.Path #></para>	
 	/// <para>ID: <#= template.ID.ToString() #></para>	
 	/// </summary>
-	public interface <#= template.Name.AsInterfaceName() #> : IGlassBase <#=GetObjectInheritanceDefinition(DefaultNamespace, template, true, (string s) => s.AsInterfaceName())#>
+	public interface <#= AsInterfaceName(template.Name) #> : IGlassBase <#=GetObjectInheritanceDefinition(DefaultNamespace, template, true, (string s) => AsInterfaceName(s))#>
 	{
 <#foreach(SitecoreField field in GetFieldsForTemplate(template, false)){#>
 		/// <summary>
 		/// The <#=field.Name#> field.
-		/// <para><#= field.SitecoreFields.GetValue("__Short description")#></para>
+		/// <para><#= GetValue(field.SitecoreFields, "__Short description")#></para>
 		/// <para>Field Type: <#=field.Type#></para>		
 		/// <para>Field ID: <#=field.ID.ToString()#></para>
 		/// <para>Custom Data: <#=field.Data#></para>
@@ -76,20 +76,20 @@ namespace <#= GetNamespace(DefaultNamespace, template)#>
 
 <#
 // If the name of the template looks like an Interface, then don't generate a class definition
-if (!template.Name.IsInterfaceWord()){ #>	
+if (!IsInterfaceWord(template.Name)){ #>	
 	/// <summary>
-	/// <#= template.Name.AsClassName() #>
-	/// <para><#= template.SitecoreFields.GetValue("__Short description")#></para>
+	/// <#= AsClassName(template.Name) #>
+	/// <para><#= GetValue(template.SitecoreFields, "__Short description")#></para>
 	/// <para>Path: <#= template.Path #></para>	
 	/// <para>ID: <#= template.ID.ToString() #></para>	
 	/// </summary>
 	[SitecoreClass(TemplateId="<#=template.ID#>")]
-	public partial class <#= template.Name.AsClassName() #>  : GlassBase, <#=template.Name.AsInterfaceName()#> 
+	public partial class <#= AsClassName(template.Name) #>  : GlassBase, <#=AsInterfaceName(template.Name)#> 
 	{
 <#foreach(SitecoreField field in GetFieldsForTemplate(template, true)){#>
 		/// <summary>
 		/// The <#=field.Name#> field.
-		/// <para><#= field.SitecoreFields.GetValue("__Short description")#></para>
+		/// <para><#= GetValue(field.SitecoreFields, "__Short description")#></para>
 		/// <para>Field Type: <#=field.Type#></para>		
 		/// <para>Field ID: <#=field.ID.ToString()#></para>
 		/// <para>Custom Data: <#=field.Data#></para>

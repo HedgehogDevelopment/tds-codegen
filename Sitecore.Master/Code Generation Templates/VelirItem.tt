@@ -2,11 +2,11 @@
 <#@ output encoding="utf-8"#>
 
 <#@ include file="Helpers.tt" #>
+<#@ include file="StringExtensions.tt" #>
+<#@ include file="GeneralExtensions.tt" #>
+<#@ include file="Inflector.tt" #>
 
 <#@ assembly name="System.Core.dll" #>
-
-<#@ import namespace="HedgehogDevelopment.CodeGeneration.Extensions" #>
-<#@ assembly name="HedgehogDevelopment.CodeGeneration.Extensions.dll" #>
 
 <#@ import namespace="System" #>
 <#@ import namespace="System.Text" #>
@@ -40,14 +40,14 @@ namespace <#= GetNamespace(DefaultNamespace, template)#>
 {
 	/// <summary>
 	/// <#= template.Name #>
-	/// <para><#= template.SitecoreFields.GetValue("__Short description")#></para>
+	/// <para><#= GetValue(template.SitecoreFields, "__Short description")#></para>
 	/// <para>Path: <#= template.Path #></para>	
 	/// <para>ID: <#= template.ID.ToString() #></para>	
 	/// </summary>
 	/// <remarks> 
     /// This example shows how to specify the <see cref="<#= template.Name #>{T}"/> type as a cref attribute.
     /// </remarks>
-	public partial class <#= template.Name.AsClassName() #> : global::Sitecore.Data.Items.CustomItem
+	public partial class <#= AsClassName(template.Name) #> : global::Sitecore.Data.Items.CustomItem
 	{
 		/// <summary>
 		/// The Template ID for <#= template.Path #>
@@ -59,10 +59,10 @@ namespace <#= GetNamespace(DefaultNamespace, template)#>
 		#region Inherited Base Templates
 <#foreach(SitecoreTemplate baseTemplate in template.BaseTemplates){#>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("<#=Tool#>", "<#=ToolVersion#>")]
-		private readonly <#=GetFullyQualifiedName(DefaultNamespace, baseTemplate)#> <#=baseTemplate.Name.AsFieldName()#>;
+		private readonly <#=GetFullyQualifiedName(DefaultNamespace, baseTemplate)#> <#=AsFieldName(baseTemplate.Name)#>;
         
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("<#=Tool#>", "<#=ToolVersion#>")]
-		public <#=GetFullyQualifiedName(DefaultNamespace, baseTemplate)#> <#=baseTemplate.Name.AsPropertyName()#> { get { return <#=baseTemplate.Name.AsFieldName()#>; } }
+		public <#=GetFullyQualifiedName(DefaultNamespace, baseTemplate)#> <#=AsPropertyName(baseTemplate.Name)#> { get { return <#=AsFieldName(baseTemplate.Name)#>; } }
 <#}#>
         #endregion
 <#}#>
@@ -70,33 +70,33 @@ namespace <#= GetNamespace(DefaultNamespace, template)#>
 		#region Boilerplate CustomItem Code
 
 		/// <example>
-		/// This sample should how to get an instance of the <see cref="<#=template.Name.AsClassName()#>"/> class.
+		/// This sample should how to get an instance of the <see cref="<#=AsClassName(template.Name)#>"/> class.
 		/// <code>
-		/// <#=template.Name.AsClassName()#> <#=template.Name.AsClassName().CamelCase()#> = new <#=template.Name#>(Sitecore.Context.Item;
+		/// <#=AsClassName(template.Name)#> <#=CamelCase(AsClassName(template.Name))#> = new <#=template.Name#>(Sitecore.Context.Item;
 		/// </code>
 		/// </example>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("<#=Tool#>", "<#=ToolVersion#>")]
-		public <#= template.Name.AsClassName() #>(Item innerItem) : base(innerItem)
+		public <#= AsClassName(template.Name) #>(Item innerItem) : base(innerItem)
 		{
 <#foreach(SitecoreTemplate baseTemplate in template.BaseTemplates){#>
-         	<#=baseTemplate.Name.AsFieldName()#> = new <#=GetFullyQualifiedName(DefaultNamespace, baseTemplate)#>(innerItem);
+         	<#=AsFieldName(baseTemplate.Name)#> = new <#=GetFullyQualifiedName(DefaultNamespace, baseTemplate)#>(innerItem);
 <#}#>
 		}
 
 		/// <example>
-		/// This sample should how to get an instance of the <see cref="<#=template.Name.AsClassName()#>"/> class.
+		/// This sample should how to get an instance of the <see cref="<#=AsClassName(template.Name)#>"/> class.
 		/// <code>
-		/// <#=template.Name.AsClassName()#> <#=template.Name.AsClassName().CamelCase()#> = Sitecore.Context.Item;
+		/// <#=AsClassName(template.Name)#> <#=CamelCase(AsClassName(template.Name))#> = Sitecore.Context.Item;
 		/// </code>
 		/// </example>
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("<#=Tool#>", "<#=ToolVersion#>")]
-		public static implicit operator <#= template.Name.AsClassName() #>(Item innerItem)
+		public static implicit operator <#= AsClassName(template.Name) #>(Item innerItem)
 		{
-			return innerItem != null ? new <#= template.Name.AsClassName() #>(innerItem) : null;
+			return innerItem != null ? new <#= AsClassName(template.Name) #>(innerItem) : null;
 		}
 
 		[global::System.CodeDom.Compiler.GeneratedCodeAttribute("<#=Tool#>", "<#=ToolVersion#>")]
-		public static implicit operator Item(<#= template.Name.AsClassName() #> customItem)
+		public static implicit operator Item(<#= AsClassName(template.Name) #> customItem)
 		{
 			return customItem != null ? customItem.InnerItem : null;
 		}
@@ -111,7 +111,7 @@ namespace <#= GetNamespace(DefaultNamespace, template)#>
 <#}else{#>
 		/// <summary>
 		/// The <#=field.Name#> field.
-		/// <para><#= field.SitecoreFields.GetValue("__Short description")#></para>
+		/// <para><#= GetValue(field.SitecoreFields, "__Short description")#></para>
 		/// <para>Field Type: <#=field.Type#></para>		
 		/// <para>Field ID: <#=field.ID.ToString()#></para>
 		/// <para>Custom Data: <#=field.Data#></para>

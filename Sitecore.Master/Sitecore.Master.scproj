@@ -1,4 +1,4 @@
-﻿<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -646,16 +646,25 @@
     <ExcludedAssemblies Include="Sitecore.%2a.dll" />
   </ItemGroup>
   <ItemGroup>
+    <CodeGenTemplate Include="Code Generation Templates\GeneralExtensions.tt" />
     <CodeGenTemplate Include="Code Generation Templates\GlassV3Header.tt" />
     <CodeGenTemplate Include="Code Generation Templates\GlassV3Item.tt" />
+    <CodeGenTemplate Include="Code Generation Templates\Inflector.tt" />
     <CodeGenTemplate Include="Code Generation Templates\MDDocHeader.tt" />
     <CodeGenTemplate Include="Code Generation Templates\MDDocItem.tt" />
     <CodeGenTemplate Include="Code Generation Templates\GlassHeader.tt" />
     <CodeGenTemplate Include="Code Generation Templates\GlassItem.tt" />
     <CodeGenTemplate Include="Code Generation Templates\Helpers.tt" />
     <CodeGenTemplate Include="Code Generation Templates\ItemPaths.tt" />
+    <CodeGenTemplate Include="Code Generation Templates\StringExtensions.tt" />
     <CodeGenTemplate Include="Code Generation Templates\VelirItem.tt" />
     <CodeGenTemplate Include="Code Generation Templates\VelirHeader.tt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\UI\UI.csproj">
+      <Project>{3fffc16d-eacd-452f-975e-9f48c4a95c6d}</Project>
+      <Name>UI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\HedgehogDevelopment\SitecoreProject\v9.0\HedgehogDevelopment.SitecoreProject.targets" />
 </Project>

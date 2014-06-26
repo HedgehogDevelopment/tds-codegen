@@ -1,12 +1,12 @@
-﻿<#@ template language="C#" #>
-<#@ include file="Helpers.tt" #>
-<#@ assembly name="System.Core.dll" #>
+﻿<#@ template language="C#"  #>
+<#@ assembly name="System.Core" #>
 
-<#@ import namespace="HedgehogDevelopment.CodeGeneration.Extensions" #>
-<#@ assembly name="HedgehogDevelopment.CodeGeneration.Extensions.dll" #>
+<#@ include file="Helpers.tt" #>
+<#@ include file="StringExtensions.tt" #>
+<#@ include file="GeneralExtensions.tt" #>
+<#@ include file="Inflector.tt" #>
 
 <#@ import namespace="System" #>
-<#@ import namespace="System.Text" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Collections.Generic" #>
 <#@ import namespace="HedgehogDevelopment.SitecoreProject.VSIP.CodeGeneration.Models" #>
