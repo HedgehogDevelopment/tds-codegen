@@ -203,7 +203,7 @@ public static string GetGlassFieldType(SitecoreField field)
 				return "File";
 
 			case "image":
-				return "ExifImage";
+				return "Image";
 
 			case "general link":
 			case "general link with search":
