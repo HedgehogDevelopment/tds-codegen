@@ -1,4 +1,5 @@
-<img src="http://www.hhogdev.com/Images/newsletter/logo_hedgehog.jpg" alt="Hedgehog Development" width="203" height="65" border="0">
+<img src="https://www.hhog.com/-/media/PublicImages/Hedgehog/Hedgehog-logo-4color-275x46.jpg" alt="Hedgehog Development" border="0"> 
+
 ================================
 
 What is Team Development for Sitecore?
@@ -28,7 +29,13 @@ How can I try code generation?
 
 When completed you should see a `SampleLibrary/Documentation.md` file with 3,000+ lines of Markdown formatted text. This file that was generated is a document that describes every item in the TDS project. By default Markdown text is generated, but you have total control of the output! Please read the [Getting Started Guide][GettingStarted] for more information on how to customize the generated code.
 
+Blog Posts about this feature
+--------------------------------
+- [http://virtualsitecore.blogspot.com/2013/02/c-code-generation-with-tds-40-for.html](http://virtualsitecore.blogspot.com/2013/02/c-code-generation-with-tds-40-for.html)  
+- [https://sitecorecreative.wordpress.com/2012/07/04/t4-code-generation-with-tds-4-0-beta-for-sitecore/](https://sitecorecreative.wordpress.com/2012/07/04/t4-code-generation-with-tds-4-0-beta-for-sitecore/)
+
+
 [TDS]:      http://TeamDevelopmentForSitecore.com
-[Download]: http://www.hhogdev.com/Products/Team-Development-for-Sitecore.aspx
+[Download]: https://www.teamdevelopmentforsitecore.com/Download/TDS-Classic
 [T4Syntax]: http://msdn.microsoft.com/en-us/library/bb126445.aspx
 [GettingStarted]: https://github.com/HedgehogDevelopment/tds-codegen/wiki/Getting-Started
